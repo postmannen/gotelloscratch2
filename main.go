@@ -51,6 +51,8 @@ func fromScratch(w http.ResponseWriter, r *http.Request) {
 	case "hover":
 		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
 		fmt.Println(" * case hover detected", "uSplit = ", uSplit)
+	default:
+		fmt.Printf("u contains = %#v\n", u)
 	}
 
 }
@@ -120,7 +122,6 @@ func handleCommand() {
 			}
 			time.Sleep(time.Millisecond * 250)
 		}
-
 	}
 }
 
