@@ -1,0 +1,17 @@
+{
+    "extensionName": "TelloNo",
+    "extensionPort": 8001,
+    "blockSpecs": [
+        ["w","takeoff","takeoff"],
+        ["w","land","land"],
+		["r", "battery?", "battery?"],
+    ],
+    "menus": {
+        "flipDirection": [
+            "fremover",
+            "bakover",
+            "venstre",
+            "høyre"
+        ],
+    },
+}
