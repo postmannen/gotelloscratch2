@@ -29,30 +29,15 @@ func fromScratch(w http.ResponseWriter, r *http.Request) {
 	u := r.RequestURI
 	uSplit := strings.Split(u, "/")
 
-	switch uSplit[1] {
-	case "takeoff":
+	fmt.Printf("uSplit = %#v, and len if uSplit = %v\n", uSplit, len(uSplit))
+	if len(uSplit) > 3 {
+		fmt.Println("------len was greater than 2")
+		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
+		fmt.Println(" * case detected", "uSplit = ", uSplit)
+	} else {
+		fmt.Println("------len was less than 2")
 		cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
-		fmt.Printf(" * case takeoff detected, uSplit = %#v\n", uSplit)
-	case "land":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
-		fmt.Printf(" * case land detected uSplit = %#v\n", uSplit)
-	case "left":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case left detected", "uSplit = ", uSplit)
-	case "right":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case right detected", "uSplit = ", uSplit)
-	case "forward":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case forward detected", "uSplit = ", uSplit)
-	case "back":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case back detected", "uSplit = ", uSplit)
-	case "hover":
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case hover detected", "uSplit = ", uSplit)
-	default:
-		fmt.Printf("u contains = %#v\n", u)
+		fmt.Println(" * case detected", "uSplit = ", uSplit)
 	}
 
 }
