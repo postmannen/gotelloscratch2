@@ -13,7 +13,16 @@
         ["w","fly bakover %n cm","back",20],
         ["w","roter med klokka vinkel 1-360 %n degree","cw",90],
         ["w","roter mot klokka vinkel 1-360 %n degree","ccw",90],
-        ["w","flip %m.flipDirection","flip","forward"],
+        ["w","flip fremover %s","flip","forward"],
+        ["w","flip bakover %s","flip","backward"],
+        ["w","flip venstre %s","flip","left"],
+        ["w","flip høyre %s","flip","right"],
+        ["w","flip fremover venstre %s","flip","forwardleft"],
+        ["w","flip fremover høyre %s","flip","forwardright"],
+        ["w","flip bakover venstre %s","flip","backwardleft"],
+        ["w","flip bakover høyre %s","flip","backwardright"],
+        ["w","roter rundt med klokka %n","cwyaw","20"],
+        ["w","roter rundt mot klokka %n","ccwyaw","20"],
 		["r", "battery?", "battery?"],
 		["r", "speed?", "speed?"],
         ["r", "time?", "time?"],
@@ -26,12 +35,4 @@
         ["r", "wifi?", "wifi?"],
         ["w","set speed to %n cm/s","setspeed",80],
     ],
-    "menus": {
-        "flipDirection": [
-            "fremover",
-            "bakover",
-            "venstre",
-            "høyre"
-        ],
-    },
 }

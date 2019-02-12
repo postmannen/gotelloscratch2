@@ -29,7 +29,6 @@ func fromScratch(w http.ResponseWriter, r *http.Request) {
 	u := r.RequestURI
 	uSplit := strings.Split(u, "/")
 
-	fmt.Printf("uSplit = %#v, and len if uSplit = %v\n", uSplit, len(uSplit))
 	if len(uSplit) > 3 {
 		fmt.Println("------len was greater than 2")
 		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
@@ -63,49 +62,81 @@ func handleCommand() {
 			time.Sleep(3 * time.Second)
 			fmt.Println("takeoff timer 7 seconds ok")
 		case "land":
-			time.Sleep(1000 * time.Millisecond)
+			time.Sleep(1000 * time.Millisecond) //let the drone stand still before we land
 			fmt.Println("land")
 			drone.Land()
 			drone.ControlDisconnect()
 		case "left":
 			fmt.Println("left")
 			drone.Left(speed)
-			if err != nil {
-				log.Println("autoturn failed: ", err)
-			}
 			time.Sleep(time.Millisecond * 100)
 			drone.Left(0)
 		case "right":
 			fmt.Println("right")
 			drone.Right(speed)
-			if err != nil {
-				log.Println("autoturn failed: ", err)
-			}
 			time.Sleep(time.Millisecond * 100)
 			drone.Right(0)
 		case "forward":
 			fmt.Println("forward")
 			drone.Forward(speed)
-			if err != nil {
-				log.Println("autoturn failed: ", err)
-			}
 			time.Sleep(time.Millisecond * 100)
 			drone.Forward(0)
 		case "back":
 			fmt.Println("back")
 			drone.Backward(speed)
-			if err != nil {
-				log.Println("autoturn failed: ", err)
-			}
 			time.Sleep(time.Millisecond * 100)
 			drone.Backward(0)
+		case "up":
+			fmt.Println("up")
+			drone.Up(speed)
+			time.Sleep(time.Millisecond * 100)
+			drone.Up(0)
+		case "down":
+			fmt.Println("down")
+			drone.Down(speed)
+			time.Sleep(time.Millisecond * 100)
+			drone.Down(0)
 		case "hover":
 			fmt.Println("hover")
 			drone.Hover()
 			if err != nil {
 				log.Println("autoturn failed: ", err)
 			}
-			time.Sleep(time.Millisecond * 250)
+		case "cw":
+			fmt.Println("rotate clockwise")
+			drone.TurnRight(speed)
+			time.Sleep(time.Millisecond * 100)
+			drone.TurnRight(0)
+		case "ccw":
+			fmt.Println("rotate clockwise")
+			drone.TurnLeft(speed)
+			time.Sleep(time.Millisecond * 100)
+			drone.TurnLeft(0)
+		case "flip":
+			if cmd.data == "forward" {
+				drone.Flip(tello.FlipForward)
+			}
+			if cmd.data == "backward" {
+				drone.Flip(tello.FlipBackward)
+			}
+			if cmd.data == "left" {
+				drone.Flip(tello.FlipLeft)
+			}
+			if cmd.data == "right" {
+				drone.Flip(tello.FlipRight)
+			}
+			if cmd.data == "forwardleft" {
+				drone.Flip(tello.FlipForwardLeft)
+			}
+			if cmd.data == "forwardright" {
+				drone.Flip(tello.FlipForwardRight)
+			}
+			if cmd.data == "backwarleft" {
+				drone.Flip(tello.FlipBackwardLeft)
+			}
+			if cmd.data == "backwardright" {
+				drone.Flip(tello.FlipBackwardRight)
+			}
 		}
 	}
 }
