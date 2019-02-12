@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -29,14 +30,17 @@ func fromScratch(w http.ResponseWriter, r *http.Request) {
 	u := r.RequestURI
 	uSplit := strings.Split(u, "/")
 
-	if len(uSplit) > 3 {
-		//cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Printf(" * len was greater than 2, case detected, uSplit = %#v\n", uSplit)
+	if uSplit[1] != "poll" {
+		if len(uSplit) > 3 {
+			cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
+			//fmt.Printf(" * len was greater than 2, case detected, uSplit = %#v\n", uSplit)
+		} else {
+			cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
+			//fmt.Printf(" * len was less than 2, case detected, uSplit = %#v\n", uSplit)
+		}
 	} else {
-		//cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
-		fmt.Printf(" * len was less than 2, case detected, uSplit = %#v\n", uSplit)
-	}
 
+	}
 }
 
 func handleCommand() {
@@ -48,9 +52,16 @@ func handleCommand() {
 	fmt.Println("*** established connection to the drone ***")
 
 	for {
+		//To be used for specifying degrees etc in case's below.
+		var num2 int16
+
 		cmd := <-cmdFromScratch
-		//num1, _ := strconv.ParseInt(cmd.data, 10, 16)
-		//num2 := int16(num1)
+		//Convert to int16 length, if it fails its a string and not a number
+		num1, err := strconv.ParseInt(cmd.data, 10, 16)
+		if err == nil {
+			num2 = int16(num1)
+			fmt.Println("cmd.Data is a number", num2)
+		}
 
 		switch cmd.command {
 		case "takeoff":
@@ -142,7 +153,7 @@ func handleCommand() {
 func main() {
 	cmdFromScratch = make(chan cmdData, 100)
 
-	//go handleCommand()
+	go handleCommand()
 
 	http.HandleFunc("/", fromScratch)
 	http.ListenAndServe(scratchListenHost, nil)
