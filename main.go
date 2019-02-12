@@ -30,13 +30,11 @@ func fromScratch(w http.ResponseWriter, r *http.Request) {
 	uSplit := strings.Split(u, "/")
 
 	if len(uSplit) > 3 {
-		fmt.Println("------len was greater than 2")
-		cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
-		fmt.Println(" * case detected", "uSplit = ", uSplit)
+		//cmdFromScratch <- cmdData{command: uSplit[1], data: uSplit[3]}
+		fmt.Printf(" * len was greater than 2, case detected, uSplit = %#v\n", uSplit)
 	} else {
-		fmt.Println("------len was less than 2")
-		cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
-		fmt.Println(" * case detected", "uSplit = ", uSplit)
+		//cmdFromScratch <- cmdData{command: uSplit[1], data: ""}
+		fmt.Printf(" * len was less than 2, case detected, uSplit = %#v\n", uSplit)
 	}
 
 }
@@ -144,7 +142,7 @@ func handleCommand() {
 func main() {
 	cmdFromScratch = make(chan cmdData, 100)
 
-	go handleCommand()
+	//go handleCommand()
 
 	http.HandleFunc("/", fromScratch)
 	http.ListenAndServe(scratchListenHost, nil)
