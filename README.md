@@ -1,7 +1,7 @@
 # gotelloscratch2
 
 Backend plugin for Scratch 2 written in Go (Golang) to control a DJI Ryze Tello drone.
-![alt_text](telloScratch.png)
+![alt text](telloScratch.png)
 This package uses the Tello driver of [@SMerrony](https://github.com/postmannen/tello)
 
 ## Install
